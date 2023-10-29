@@ -4,7 +4,7 @@ from .kdtree import KdTree
 from .agent import Agent
 from .obstacle import Obstacle
 
-
+from multiprocessing import Pool
 class Simulator:
     """
     Defines the simulation.
@@ -94,7 +94,7 @@ class Simulator:
 
         return obstacleNo
 
-    def step(self):
+    def step_origin(self, num):
         """
         Performs a simulation step and updates the two-dimensional position and two-dimensional velocity of each agent.
 
@@ -118,6 +118,10 @@ class Simulator:
         self.global_time_ += self.time_step_
 
         return self.global_time_
+    
+    def step(self):
+        p = Pool(10)
+        result = p.map(self.step_origin, range(10))
 
     @property
     def global_time(self):

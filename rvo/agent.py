@@ -30,7 +30,7 @@ class Agent:
         self.new_velocity_ = Vector2()
         self.is_robot = False
         self.face_orientation_ = Vector2()
-        self.angle_of_vision = 60.0 # need to be fixed later                                                                                           
+        self.angle_of_vision = 180.0 # need to be fixed later                                                                                           
 
     def compute_neighbors(self):
         """
@@ -57,7 +57,7 @@ class Agent:
             magnitude_b = np.linalg.norm(b)
             
             # 2つのベクトル間のコサインの角度を計算
-            cos_theta = dot_product / (magnitude_a * magnitude_b)
+            cos_theta = dot_product / ((magnitude_a * magnitude_b) + 0.00001)
             
             # 角度をラジアンから度に変換
             theta = np.degrees(np.arccos(np.clip(cos_theta, -1.0, 1.0)))
@@ -259,7 +259,7 @@ class Agent:
             #check if the robot is in the angle of vision of other agent
             relative_angle_from_other = angle_between_vectors(other.face_orientation_, - other.position_ + self.position_)
             if abs(relative_angle_from_other) > other.angle_of_vision:
-                weight = 1.0
+                weight = 1
 
             distSq = rvo_math.abs_sq(relativePosition)
             combinedRadius = self.radius_ + other.radius_

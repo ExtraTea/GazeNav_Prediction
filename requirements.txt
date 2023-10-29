@@ -1,0 +1,6 @@
+numpy
+pandas==1.5.2
+gym==0.15.7
+tensorflow[and-cuda]
+matplotlib==3.6.2
+Cython
