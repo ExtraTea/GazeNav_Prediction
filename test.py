@@ -10,7 +10,7 @@ from rl.networks.envs import make_vec_envs
 from rl.evaluation import evaluate
 from rl.networks.model import Policy
 
-from crowd_sim import *
+# from crowd_sim import *
 
 
 def main():

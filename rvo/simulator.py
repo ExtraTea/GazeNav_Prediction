@@ -6,6 +6,7 @@ from .obstacle import Obstacle
 
 from multiprocessing import Pool
 class Simulator:
+    
     """
     Defines the simulation.
     """
@@ -14,6 +15,7 @@ class Simulator:
         """
         Constructs and initializes a simulation.
         """
+        # raise NotImplementedError("hogehoge")
         self.agents_ = []
         self.default_agent_ = None
         self.kd_tree_ = KdTree(self)
@@ -22,6 +24,7 @@ class Simulator:
         self.time_step_ = 0.01
 
     def add_agent(self, position):
+        # raise NotImplementedError("hogehoge")
         """
         Adds a new agent with default properties to the simulation.
 
@@ -94,7 +97,7 @@ class Simulator:
 
         return obstacleNo
 
-    def step_origin(self, num):
+    def step(self):
         """
         Performs a simulation step and updates the two-dimensional position and two-dimensional velocity of each agent.
 
@@ -119,9 +122,9 @@ class Simulator:
 
         return self.global_time_
     
-    def step(self):
-        p = Pool(10)
-        result = p.map(self.step_origin, range(10))
+    # def step(self):
+    #     p = Pool(10)
+    #     result = p.map(self.step_origin, range(10))
 
     @property
     def global_time(self):
