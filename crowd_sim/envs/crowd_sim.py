@@ -201,6 +201,8 @@ class CrowdSim(gym.Env):
 
 
     def generate_circle_crossing_human(self):
+        
+
         """Generate a human: generate start position on a circle, goal position is at the opposite side"""
         human = Human(self.config, 'humans')
         if self.randomize_attributes:
@@ -210,8 +212,8 @@ class CrowdSim(gym.Env):
             angle = np.random.random() * np.pi * 2
             # add some noise to simulate all the possible cases robot could meet with human
             v_pref = 1.0 if human.v_pref == 0 else human.v_pref
-            px_noise = (np.random.random() - 0.5) * v_pref
-            py_noise = (np.random.random() - 0.5) * v_pref
+            px_noise = (np.random.random() - 0.5) * v_pref * 0
+            py_noise = (np.random.random() - 0.5) * v_pref * 0
             px = self.circle_radius * np.cos(angle) + px_noise
             py = self.circle_radius * np.sin(angle) + py_noise
             collide = False
@@ -480,8 +482,8 @@ class CrowdSim(gym.Env):
                     break
 
             # Give human new goal
-            human.gx = gx
-            human.gy = gy
+            human.gx = gx * 0
+            human.gy = gy * 0
         return
 
     # calculate the angle between the direction vector of state1 and the vector from state1 to state2
@@ -748,6 +750,7 @@ class CrowdSim(gym.Env):
         return ob, reward, done, info
 
     def render(self, mode='human'):
+        raise NotImplementedError("hogehoge")
         """ Render the current status of the environment using matplotlib """
         import matplotlib.pyplot as plt
         import matplotlib.lines as mlines
@@ -792,7 +795,7 @@ class CrowdSim(gym.Env):
 
         plt.legend([robot, goal], ['Robot', 'Goal'], fontsize=16)
 
-
+        plt.grid()
         # compute orientation in each step and add arrow to show the direction
         radius = self.robot.radius
         arrowStartEnd=[]
@@ -841,9 +844,9 @@ class CrowdSim(gym.Env):
             artists.append(FOVLine2)
 
         # add an arc of robot's sensor range
-        sensor_range = plt.Circle(self.robot.get_position(), self.robot.sensor_range, fill=False, linestyle='--')
-        ax.add_artist(sensor_range)
-        artists.append(sensor_range)
+        # sensor_range = plt.Circle(self.robot.get_position(), self.robot.sensor_range, fill=False, linestyle='--')
+        # ax.add_artist(sensor_range)
+        # artists.append(sensor_range)
         # add humans and change the color of them based on visibility
         human_circles = [plt.Circle(human.get_position(), human.radius, fill=False) for human in self.humans]
 

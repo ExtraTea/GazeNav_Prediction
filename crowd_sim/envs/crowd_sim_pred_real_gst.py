@@ -198,7 +198,7 @@ class CrowdSimPredRealGST(CrowdSimPred):
         sensor_range = plt.Circle(self.robot.get_position(), self.robot.sensor_range + self.robot.radius+self.config.humans.radius, fill=False, linestyle='--')
         ax.add_artist(sensor_range)
         artists.append(sensor_range)
-
+        
         # add humans and change the color of them based on visibility
         human_circles = [plt.Circle(human.get_position(), human.radius, fill=False, linewidth=1.5) for human in self.humans]
 

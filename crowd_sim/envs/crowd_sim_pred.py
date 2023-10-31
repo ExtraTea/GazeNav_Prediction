@@ -234,6 +234,8 @@ class CrowdSimPred(CrowdSimVarNum):
 
 
     def render(self, mode='human'):
+        # raise NotImplementedError("hogehoge")
+
         """ Render the current status of the environment using matplotlib """
         import matplotlib.pyplot as plt
         import matplotlib.lines as mlines

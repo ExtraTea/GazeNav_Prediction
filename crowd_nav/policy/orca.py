@@ -89,6 +89,9 @@ class ORCA(Policy):
             #                   self_state.v_pref, (self_state.vx, self_state.vy))
             
             self.sim.add_agent(Vector2(self_state.px, self_state.py))
+            self.sim.agents_[0].radius = self_state.radius + 0.01 + self.safety_space
+            # self.sim.agents_[0].max_speed_ = self_state.v_pref
+            self.sim.agents_[0].velocity_ = Vector2(self_state.vx, self_state.vy)
 
             for human_state in state.human_states:
                 # self.sim.addAgent((human_state.px, human_state.py), *params, human_state.radius + 0.01 + self.config.orca.safety_space,

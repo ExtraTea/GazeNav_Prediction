@@ -62,6 +62,7 @@ class CrowdSimVarNum(CrowdSim):
     # for crowd nav: human_num == self.human_num
     # for leader follower: human_num = self.human_num - 1
     def generate_robot_humans(self, phase, human_num=None):
+        NotImplementedError("hoge")
         if self.record:
             px, py = 0, 0
             gx, gy = 0, -1.5
@@ -114,6 +115,7 @@ class CrowdSimVarNum(CrowdSim):
 
     # generate a human that starts on a circle, and its goal is on the opposite side of the circle
     def generate_circle_crossing_human(self):
+        # raise NotImplementedError("hogehoge")
         human = Human(self.config, 'humans')
         if self.randomize_attributes:
             human.sample_random_attributes()
@@ -121,9 +123,9 @@ class CrowdSimVarNum(CrowdSim):
         while True:
             angle = np.random.random() * np.pi * 2
             # add some noise to simulate all the possible cases robot could meet with human
-            noise_range = 2
-            px_noise = np.random.uniform(0, 1) * noise_range
-            py_noise = np.random.uniform(0, 1) * noise_range
+            noise_range = 0.1
+            px_noise = np.random.uniform(0, 1) * noise_range 
+            py_noise = np.random.uniform(0, 1) * noise_range 
             px = self.circle_radius * np.cos(angle) + px_noise
             py = self.circle_radius * np.sin(angle) + py_noise
             collide = False
@@ -141,7 +143,7 @@ class CrowdSimVarNum(CrowdSim):
             if not collide:
                 break
 
-        human.set(px, py, -px, -py, 0, 0, 0)
+        human.set(px, py, -px, py, 0, 0, 0)
 
         return human
 
@@ -282,6 +284,7 @@ class CrowdSimVarNum(CrowdSim):
 
     # Update the specified human's end goals in the environment randomly
     def update_human_pos_goal(self, human):
+        # raise NotImplementedError("HOge")
         while True:
             angle = np.random.random() * np.pi * 2
             # add some noise to simulate all the possible cases robot could meet with human
@@ -624,7 +627,6 @@ class CrowdSimVarNum(CrowdSim):
         for arrow in arrows:
             ax.add_artist(arrow)
             artists.append(arrow)
-
 
         # draw FOV for the robot
         # add robot FOV

@@ -11,6 +11,7 @@ from crowd_sim.envs import *
 
 # train_data: True if collect training data, False if collect testing data
 def collectData(device, train_data, config):
+    # raise NotImplementedError("hogehoge")
     # set robot policy to orca
     config.robot.policy = 'orca'
 
