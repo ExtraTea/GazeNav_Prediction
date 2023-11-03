@@ -82,24 +82,29 @@ class ORCA(Policy):
         if self.sim is not None and self.sim.num_agents != len(state.human_states) + 1:
             del self.sim
             self.sim = None
+        del self.sim
+        self.sim=None
         if self.sim is None:
+            # print("hoge")
             self.sim = Simulator()
-            self.sim.set_agent_defaults(10.0, 10, 5.0, 5.0, 5, 3.0, Vector2(2.0, 0.0))
+            self.sim.set_agent_defaults(100.0, 10, 5.0, 5.0, 5.46, 3.0, Vector2(0.0, 0.0))
             # self.sim.addAgent((self_state.px, self_state.py), *params, self_state.radius + 0.01 + self.safety_space,
             #                   self_state.v_pref, (self_state.vx, self_state.vy))
             
-            self.sim.add_agent(Vector2(self_state.px, self_state.py))
-            self.sim.agents_[0].radius = self_state.radius + 0.01 + self.safety_space
+            self.sim.add_agent(Vector2(self_state.px, self_state.py),self_state.radius + 0.01 + self.safety_space, Vector2(self_state.vx, self_state.vy))
             # self.sim.agents_[0].max_speed_ = self_state.v_pref
-            self.sim.agents_[0].velocity_ = Vector2(self_state.vx, self_state.vy)
-
-            for human_state in state.human_states:
+            # self.sim.agents_[0].velocity_ = Vector2(self_state.vx, self_state.vy)
+            # print(0)
+            
+            for i, human_state in enumerate(state.human_states):
                 # self.sim.addAgent((human_state.px, human_state.py), *params, human_state.radius + 0.01 + self.config.orca.safety_space,
                 #                   self.max_speed, (human_state.vx, human_state.vy))
-                self.sim.add_agent(Vector2(human_state.px, human_state.py))
-                self.sim.agents_[-1].radius_ = human_state.radius + 0.01 + self.config.orca.safety_space
-                self.sim.agents_[-1].max_speed_ = self.max_speed
-                self.sim.agents_[-1].velocity_ = Vector2(human_state.vx, human_state.vy)
+                self.sim.add_agent(Vector2(human_state.px, human_state.py), human_state.radius + 0.01 + self.config.orca.safety_space, Vector2(human_state.vx, human_state.vy))
+                self.sim.agents_[i+1].max_speed_ = self.max_speed
+                # self.sim.agents_[i+1].velocity_ = Vector2(human_state.vx, human_state.vy)
+                # print((self_state.px-human_state.px)**2+(self_state.py-human_state.py)**2)
+                # print(self_state.px, self_state.py, 0, human_state.px, human_state.py, i+1)
+                # print(i+1)
                 # self.sim.set_agent_pref_velocity(-1, human_state.v_pref)
             
         # else:

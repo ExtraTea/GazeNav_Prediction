@@ -30,7 +30,7 @@ class Agent:
         self.new_velocity_ = Vector2()
         self.is_robot = False
         self.face_orientation_ = Vector2()
-        self.angle_of_vision = 180.0 # need to be fixed later                                                                                           
+        self.angle_of_vision = 360.0 # need to be fixed later                                                                                           
 
     def compute_neighbors(self):
         """
@@ -46,6 +46,7 @@ class Agent:
             self.simulator_.kd_tree_.compute_agent_neighbors(self, rangeSq)
 
     def compute_new_velocity(self):
+        # print("hoge")
         def angle_between_vectors(a, b):
             a = np.array([a.x_, a.y_])
             b = np.array([b.x_, b.y_])
@@ -248,6 +249,7 @@ class Agent:
 
         # Create agent ORCA lines.
         for i in range(len(self.agent_neighbors_)):
+            # print("hoge")
             other = self.agent_neighbors_[i][1]
             weight = 0.5
             relativePosition = other.position_ - self.position_
@@ -259,7 +261,7 @@ class Agent:
             #check if the robot is in the angle of vision of other agent
             relative_angle_from_other = angle_between_vectors(other.face_orientation_, - other.position_ + self.position_)
             if abs(relative_angle_from_other) > other.angle_of_vision:
-                weight = 1
+                weight = 1.0
 
             distSq = rvo_math.abs_sq(relativePosition)
             combinedRadius = self.radius_ + other.radius_
@@ -309,7 +311,7 @@ class Agent:
                 line.direction = Vector2(unitW.y, -unitW.x)
                 u = (combinedRadius * invTimeStep - wLength) * unitW
 
-            line.point = self.velocity_ + weight * u
+            line.point = self.velocity_ + 0.5 * u
             self.orca_lines_.append(line)
 
         lineFail, self.new_velocity_ = self.linear_program2(self.orca_lines_, self.max_speed_, self.pref_velocity_, False, self.new_velocity_)

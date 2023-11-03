@@ -234,7 +234,7 @@ class CrowdSimPredRealGST(CrowdSimPred):
                     ax.add_artist(circle)
                     artists.append(circle)
 
-        plt.pause(0.1)
+        plt.pause(0.05)
         for item in artists:
             item.remove() # there should be a better way to do this. For example,
             # initially use add_artist and draw_artist later on

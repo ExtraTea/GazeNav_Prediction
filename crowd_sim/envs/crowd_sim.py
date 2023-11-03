@@ -212,8 +212,8 @@ class CrowdSim(gym.Env):
             angle = np.random.random() * np.pi * 2
             # add some noise to simulate all the possible cases robot could meet with human
             v_pref = 1.0 if human.v_pref == 0 else human.v_pref
-            px_noise = (np.random.random() - 0.5) * v_pref * 0
-            py_noise = (np.random.random() - 0.5) * v_pref * 0
+            px_noise = (np.random.random() - 0.5) * v_pref 
+            py_noise = (np.random.random() - 0.5) * v_pref
             px = self.circle_radius * np.cos(angle) + px_noise
             py = self.circle_radius * np.sin(angle) + py_noise
             collide = False
@@ -684,13 +684,16 @@ class CrowdSim(gym.Env):
         human_actions = []  # a list of all humans' actions
 
         for i, human in enumerate(self.humans):
+            
             # observation for humans is always coordinates
             ob = []
             for other_human in self.humans:
                 if other_human != human:
+                    
                     # Else detectable humans are always observable to each other
                     if self.detect_visible(human, other_human):
                         ob.append(other_human.get_observable_state())
+                        
                     else:
                         ob.append(self.dummy_human.get_observable_state())
 
@@ -701,6 +704,7 @@ class CrowdSim(gym.Env):
                     ob += [self.dummy_robot.get_observable_state()]
 
             human_actions.append(human.act(ob))
+            
 
         return human_actions
 
@@ -714,7 +718,7 @@ class CrowdSim(gym.Env):
 
         human_actions = self.get_human_actions()
 
-
+        
         # compute reward and episode info
         reward, done, episode_info = self.calc_reward(action)
 

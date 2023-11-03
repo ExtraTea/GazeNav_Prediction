@@ -23,7 +23,7 @@ class Simulator:
         self.global_time_ = 0.0
         self.time_step_ = 0.01
 
-    def add_agent(self, position):
+    def add_agent(self, position, radius_, velocity):
         # raise NotImplementedError("hogehoge")
         """
         Adds a new agent with default properties to the simulation.
@@ -43,10 +43,10 @@ class Simulator:
         agent.max_speed_ = self.default_agent_.max_speed_
         agent.neighbor_dist_ = self.default_agent_.neighbor_dist_
         agent.position_ = position
-        agent.radius_ = self.default_agent_.radius_
+        agent.radius_ = radius_
         agent.time_horizon_ = self.default_agent_.time_horizon_
         agent.time_horizon_obst_ = self.default_agent_.time_horizon_obst_
-        agent.velocity_ = self.default_agent_.velocity_
+        agent.velocity_ = velocity
         self.agents_.append(agent)
 
         return agent.id_
@@ -110,6 +110,7 @@ class Simulator:
         # TODO: Try async/await here.
         # Performs a simulation step.
         for agentNo in range(self.num_agents):
+            # print(agentNo)
             self.agents_[agentNo].compute_neighbors()
             self.agents_[agentNo].compute_new_velocity()
 
@@ -121,10 +122,6 @@ class Simulator:
         self.global_time_ += self.time_step_
 
         return self.global_time_
-    
-    # def step(self):
-    #     p = Pool(10)
-    #     result = p.map(self.step_origin, range(10))
 
     @property
     def global_time(self):

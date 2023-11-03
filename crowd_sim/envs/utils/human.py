@@ -17,9 +17,10 @@ class Human(Agent):
         :param ob:
         :return:
         """
-
+        
         state = JointState(self.get_full_state(), ob)
         action = self.policy.predict(state)
+        # print(action[0], action[1])
         return action
 
     # ob: a joint state (ego agent's full state + other agents' observable states)

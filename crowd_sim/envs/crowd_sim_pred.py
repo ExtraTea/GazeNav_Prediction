@@ -131,6 +131,7 @@ class CrowdSimPred(CrowdSimVarNum):
 
 
         human_actions = self.get_human_actions()
+        
 
         # need to update self.human_future_traj in testing to calculate number of intrusions
         if self.phase == 'test':

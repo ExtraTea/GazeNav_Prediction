@@ -123,7 +123,7 @@ class CrowdSimVarNum(CrowdSim):
         while True:
             angle = np.random.random() * np.pi * 2
             # add some noise to simulate all the possible cases robot could meet with human
-            noise_range = 0.1
+            noise_range = 10
             px_noise = np.random.uniform(0, 1) * noise_range 
             py_noise = np.random.uniform(0, 1) * noise_range 
             px = self.circle_radius * np.cos(angle) + px_noise
@@ -143,7 +143,7 @@ class CrowdSimVarNum(CrowdSim):
             if not collide:
                 break
 
-        human.set(px, py, -px, py, 0, 0, 0)
+        human.set(px, py, -px, -py, 0, 0, 0)
 
         return human
 
