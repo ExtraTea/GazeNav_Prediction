@@ -199,6 +199,15 @@ class CrowdSimPredRealGST(CrowdSimPred):
         ax.add_artist(sensor_range)
         artists.append(sensor_range)
         
+        #add wall lines
+        bottom = mlines.Line2D([0, 50], [0, 0], color='black')
+        top = mlines.Line2D([0, 50], [self.arena_size, self.arena_size], color='black')
+        print(self.arena_size)
+        ax.add_artist(bottom)
+        ax.add_artist(top)
+        artists.append(bottom)
+        artists.append(top)
+
         # add humans and change the color of them based on visibility
         human_circles = [plt.Circle(human.get_position(), human.radius, fill=False, linewidth=1.5) for human in self.humans]
 

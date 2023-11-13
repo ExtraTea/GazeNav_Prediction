@@ -65,7 +65,7 @@ class CrowdSimVarNum(CrowdSim):
         NotImplementedError("hoge")
         if self.record:
             px, py = 0, 0
-            gx, gy = 0, -1.5
+            gx, gy = 50, 3
             self.robot.set(px, py, gx, gy, 0, 0, np.pi / 2)
             # generate a dummy human
             for i in range(self.max_human_num):
@@ -79,8 +79,9 @@ class CrowdSimVarNum(CrowdSim):
             if self.robot.kinematics == 'unicycle':
                 # generate robot
                 angle = np.random.uniform(0, np.pi * 2)
-                px = self.arena_size * np.cos(angle)
-                py = self.arena_size * np.sin(angle)
+                # px = self.arena_size * np.cos(angle)
+                # py = self.arena_size * np.sin(angle)
+                px, py = 0, 0
                 while True:
                     gx, gy = np.random.uniform(-self.arena_size, self.arena_size, 2)
                     if np.linalg.norm([px - gx, py - gy]) >= 4:  # 1 was 6
@@ -99,6 +100,8 @@ class CrowdSimVarNum(CrowdSim):
                     px, py, gx, gy = np.random.uniform(-self.arena_size, self.arena_size, 4)
                     if np.linalg.norm([px - gx, py - gy]) >= 8: # 6
                         break
+                px, py = 15, 3
+                gx, gy = 30, 3
                 self.robot.set(px, py, gx, gy, 0, 0, np.pi / 2)
                 # generate humans
                 self.human_num = np.random.randint(low=self.config.sim.human_num - self.human_num_range,
@@ -123,11 +126,11 @@ class CrowdSimVarNum(CrowdSim):
         while True:
             angle = np.random.random() * np.pi * 2
             # add some noise to simulate all the possible cases robot could meet with human
-            noise_range = 10
+            noise_range = 50
             px_noise = np.random.uniform(0, 1) * noise_range 
             py_noise = np.random.uniform(0, 1) * noise_range 
-            px = self.circle_radius * np.cos(angle) + px_noise
-            py = self.circle_radius * np.sin(angle) + py_noise
+            px = px_noise
+            py = py_noise/10
             collide = False
 
             for i, agent in enumerate([self.robot] + self.humans):
@@ -142,8 +145,12 @@ class CrowdSimVarNum(CrowdSim):
                     break
             if not collide:
                 break
-
-        human.set(px, py, -px, -py, 0, 0, 0)
+        if px>25:
+            gx = px - 50
+        else:
+            gx = px + 50
+        gy = py
+        human.set(px, py, gx, gy, 0, 0, 0)
 
         return human
 
@@ -485,7 +492,11 @@ class CrowdSimVarNum(CrowdSim):
                 break
             elif closest_dist < dmin:
                 dmin = closest_dist
-
+        # hard code the wall collision penalty
+        if self.robot.py > self.arena_size - self.robot.radius:
+            collision = True
+        if self.robot.py < 0 + self.robot.radius:
+            collision = True
 
         # check if reaching the goal
         if self.robot.kinematics == 'unicycle':
